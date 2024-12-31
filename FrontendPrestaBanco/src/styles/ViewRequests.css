@@ -1,0 +1,12 @@
+.view-requests-root {
+  width: 100% !important; 
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #ffffff; 
+  box-sizing: border-box; 
+}
+
+.view-requests-container .table-responsive {
+  width: 100%; 
+  margin: 0;   
+}

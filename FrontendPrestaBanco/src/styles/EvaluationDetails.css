@@ -1,0 +1,26 @@
+
+.label-text {
+  color: #495057; 
+}
+
+.bg-success {
+  background-color: #d4edda !important; 
+  color: #155724 !important; 
+}
+
+.bg-danger {
+  background-color: #f8d7da !important; 
+  color: #721c24 !important; 
+}
+
+.btn-right {
+  margin-left: 20px; 
+}
+
+.container.mt-4 {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+

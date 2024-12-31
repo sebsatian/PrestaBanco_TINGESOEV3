@@ -1,0 +1,25 @@
+.fixed-button-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+  }
+  
+  .fixed-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .fixed-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .content-container {
+    padding-top: 50px; 
+  }

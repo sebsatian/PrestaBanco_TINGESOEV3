@@ -1,0 +1,106 @@
+services:
+  # Database service
+  postgres:
+    image: postgres:latest
+    container_name: postgres-prestabancodb
+    environment:
+      POSTGRES_DB: PrestaBancoDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-network
+
+  # Frontend services
+  frontend1:
+    image: sebsatian/frontend-prestabanco:latest
+    networks:
+      - frontend-network
+
+  frontend2:
+    image: sebsatian/frontend-prestabanco:latest
+    networks:
+      - frontend-network
+
+  frontend3:
+    image: sebsatian/frontend-prestabanco:latest
+    networks:
+      - frontend-network
+
+  # Backend services
+  backend1:
+    image: sebsatian/backend-prestabanco:latest
+    environment:
+      - DB_HOST=postgres-prestabancodb
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=admin
+      - DB_NAME=PrestaBancoDB
+    depends_on:
+      - postgres
+    networks:
+      - backend-network
+
+  backend2:
+    image: sebsatian/backend-prestabanco:latest
+    environment:
+      - DB_HOST=postgres-prestabancodb
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=admin
+      - DB_NAME=PrestaBancoDB
+    depends_on:
+      - postgres  
+    networks:
+      - backend-network
+
+  backend3:
+    image: sebsatian/backend-prestabanco:latest
+    environment:
+      - DB_HOST=postgres-prestabancodb
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=admin
+      - DB_NAME=PrestaBancoDB
+    depends_on:
+      - postgres
+    networks:
+      - backend-network
+
+  # Nginx for frontend load balancing
+  nginx-frontend:
+    image: nginx:latest
+    ports:
+      - "8070:80"
+    volumes:
+      - ./nginx-frontend.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend1
+      - frontend2
+      - frontend3
+    networks:
+      - frontend-network
+
+  # Nginx for backend load balancing
+  nginx-backend:
+    image: nginx:latest
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./nginx-backend.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
+    networks:
+      - backend-network
+
+networks:
+  frontend-network:
+  backend-network:
+
+volumes:
+  postgres-data:
