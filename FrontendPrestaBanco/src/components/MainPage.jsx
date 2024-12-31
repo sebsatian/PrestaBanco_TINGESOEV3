@@ -3,13 +3,7 @@ import '../styles/MainPage.css';
 
 function MainPage() {
   return (
-    <div>
-      <div className="fixed-button-container">
-        <Link to="/">
-          <button className="fixed-button">Inicio</button>
-        </Link>
-      </div>
-      
+    <div>      
       <div className="container">
         <h1>PrestaBanco - Créditos Hipotecarios</h1>
         <Link to="/register">

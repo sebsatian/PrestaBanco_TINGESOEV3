@@ -1,25 +1,70 @@
-.fixed-button-container {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1000;
-  }
-  
-  .fixed-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .fixed-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .content-container {
-    padding-top: 50px; 
-  }
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #007bff; /* Azul Bootstrap */
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  /* ya no uses justify-content: space-between si deseas todos a la izquierda */
+  /* justify-content: flex-start; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  height: 60px; 
+  overflow: hidden;
+}
+
+/* Contenedor de los dos botones a la izquierda */
+.header-buttons-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* espaciado horizontal entre botones */
+}
+
+/* Estilo general de los botones */
+.header-button {
+  background-color: white;
+  color: #007bff;
+  border: 1px solid #007bff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover general de los botones */
+.header-button:hover {
+  background-color: #0056b3;
+  color: white;
+  border-color: #0056b3;
+}
+
+/* Botón "Atrás" con un rojo suave */
+.back-button {
+  background-color: #f8d7da; /* Rojo muy clarito (estilo "alert-danger" claro) */
+  color: #dc3545;            /* Texto rojo */
+  border-color: #f5c6cb;     /* Borde ligeramente más oscuro */
+
+  /* Si quieres que sea un rojo de Bootstrap .btn-danger pero "soft",
+     puedes jugar con #f8d7da (fondo) y #dc3545 (texto) */
+}
+
+/* Hover específico del botón "Atrás" */
+.back-button:hover {
+  background-color: #dc3545;
+  color: #ffffff;
+  border-color: #dc3545;
+}
+
+.content-container {
+  margin-top: 60px; /* Compensa la altura del header fijo */
+  padding: 20px;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: #ffffff;
+  transition: width 0.2s ease;
+}

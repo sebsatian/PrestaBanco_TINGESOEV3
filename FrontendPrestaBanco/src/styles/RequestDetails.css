@@ -26,11 +26,10 @@ html, body {
 
 
 .pdf-viewer {
-
-    justify-content: center;
+    display: flex;
     align-items: center;
     width: 50vw;
-    height: 100vh;
+    height: 110vh;
     position: fixed;
     right: -50vw; 
     top: 0;
@@ -39,7 +38,7 @@ html, body {
 }
 
 .split-view .pdf-viewer {
-  transform: translateX(-44vw); 
+  transform: translateX(-45vw); 
 }
 
 .split-view .request-details {

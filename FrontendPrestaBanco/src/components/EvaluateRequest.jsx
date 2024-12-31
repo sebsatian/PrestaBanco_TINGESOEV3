@@ -495,7 +495,7 @@ const EvaluateRequest = () => {
         <iframe
           src={pdfUrl + "#toolbar=1"}
           title="Documento PDF"
-          style={{ width: '75%', height: '100%' }}
+          style={{ width: '75%', height: '85%' }}
         />
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
