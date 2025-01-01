@@ -64,4 +64,21 @@ input[type="date"] {
   justify-content: space-between;
   align-items: center;
 }
+.view-loan-types-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 120%;
+  height: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
+.background-white-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  padding: 5% 10%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 60%; /* Ancho del 100% del contenedor padre */
+  margin: 0 auto; /* Centrar horizontalmente */
+}

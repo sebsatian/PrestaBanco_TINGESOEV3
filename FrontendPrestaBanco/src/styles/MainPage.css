@@ -1,43 +1,54 @@
-.fixed-button-container {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
-  }
-  
-  .fixed-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: auto; 
-    min-height: 20vh; 
-    width: 50vw;
-    text-align: center;
-  }
-  
-  .action-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .action-button:hover {
-    background-color: #0056b3;
-  }
-  
+.main-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.sections-container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%; /* Ajusta el ancho total */
+  margin-top: 20px;
+}
+
+.executive-section,
+.user-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Espacio entre botones */
+}
+
+.executive-section h2,
+.user-section h2 {
+  margin-bottom: 15px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px; /* Ancho fijo */
+}
+
+.action-button:hover {
+  background-color: #0056b3;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto; 
+  min-height: 20vh; 
+  width: 50vw;
+  text-align: center;
+}

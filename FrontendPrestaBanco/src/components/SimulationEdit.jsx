@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import simulateService from '../services/simulate.service';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
+import '../App.css';
 
 const SimulationEdit = () => {
   const { simulationId } = useParams();
@@ -134,7 +135,8 @@ const SimulationEdit = () => {
   const handleCloseModal = () => setShowModal(false);
 
   return (
-    <div className="container mt-3" style={{ paddingTop: '1rem', maxHeight: '90vh', overflowY: 'hidden' }}>  
+    <div className="container mt-3" style={{ paddingTop: '1rem', maxHeight: '90vh', overflowY: 'hidden' }}>
+      <div className="background-white-container">
       <h2>Editar Simulación de Crédito</h2>
       <form onSubmit={handleSubmit} className="needs-validation" noValidate>
         <div className="form-group">
@@ -225,7 +227,8 @@ const SimulationEdit = () => {
           <button type="submit" className="btn btn-primary">Guardar Cambios</button>
         </div>
       </form>
-
+      </div>  
+      
       {error && (
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>

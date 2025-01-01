@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import http from '../http-common'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import '../App.css';
 const CreateRequest = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -137,7 +137,8 @@ const CreateRequest = () => {
   }
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5" style={{ width: '60rem' }}>
+      <div className="background-white-container">
       <h2>Solicitar Préstamo - {loanTypeName}</h2>
       <form onSubmit={handleSubmit}>
         {}
@@ -161,6 +162,7 @@ const CreateRequest = () => {
             id="monthlyIncome"
             name="monthlyIncome"
             value={documents.monthlyIncome || ''}
+            placeholder='Ingrese su ingreso mensual en pesos chilenos'
             onChange={handleInputChange}
             required
           />
@@ -288,6 +290,7 @@ const CreateRequest = () => {
           Enviar Solicitud
         </button>
       </form>
+    </div>
     </div>
   );
 };

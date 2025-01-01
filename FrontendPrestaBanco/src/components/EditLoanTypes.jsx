@@ -31,6 +31,9 @@ const EditLoanTypes = () => {
           maxFinance: loanType.maxFinance ?? 0
         }));
 
+        // Ordenar los loanTypes por id
+        sanitizedData.sort((a, b) => a.id - b.id);
+
         setLoanTypes(sanitizedData);
       } catch (err) {
         console.error(err);
@@ -78,7 +81,7 @@ const EditLoanTypes = () => {
   const handleCloseModal = () => setShowModal(false);
 
   return (
-    <div className="container mt-3" style={{ paddingTop: '1rem', maxHeight: '90vh', overflowY: 'hidden' }}>  
+    <div className="view-loan-types-container container mt-3" style={{ paddingTop: '1rem', maxHeight: '90vh', overflowY: 'hidden' }}>
       <h2>Editar Tipos de Préstamo</h2>
       <form onSubmit={handleSubmit} className="needs-validation" noValidate>
         <div className="row mb-3">

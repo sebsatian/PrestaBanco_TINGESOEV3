@@ -42,7 +42,7 @@ const SimulationDetails = () => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Detalles de la Simulación</h2>
         <button 
-          className="btn btn-secondary" 
+          className="btn btn-secondary ms-4"
           onClick={() => navigate(`/simulation/change/${simulationId}`)} 
           >
             Editar

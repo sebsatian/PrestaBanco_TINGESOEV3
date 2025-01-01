@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "@mui/icons-material": "^6.1.4",
     "@mui/material": "^6.1.4",
     "@mui/styled-engine-sc": "^6.1.4",
@@ -19,6 +20,7 @@
     "@react-pdf-viewer/default-layout": "^3.12.0",
     "axios": "^1.5.0",
     "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
     "moment": "^2.30.1",
     "pdfjs-dist": "^2.16.105",
     "react": "^18.3.1",

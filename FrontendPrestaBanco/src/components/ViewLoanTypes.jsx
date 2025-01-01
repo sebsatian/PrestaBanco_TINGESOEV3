@@ -31,6 +31,9 @@ const ViewLoanTypes = () => {
           maxFinance: loanType.maxFinance ?? 0
         }));
 
+        // Ordenar los loanTypes por id
+        sanitizedData.sort((a, b) => a.id - b.id);
+
         setLoanTypes(sanitizedData);
       } catch (err) {
         console.error(err);
@@ -49,7 +52,7 @@ const ViewLoanTypes = () => {
   };
 
   return (
-    <div className="container mt-3" style={{ paddingTop: '1rem', maxHeight: '90vh', overflowY: 'hidden' }}>  
+    <div className="view-loan-types-container container mt-3" style={{ paddingTop: '1rem', maxHeight: '90vh', overflowY: 'hidden' }}>
       <h2>Ver Tipos de Préstamo</h2>
       <div className="row mb-3">
         <div className="col">

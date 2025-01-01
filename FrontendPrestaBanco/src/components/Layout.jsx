@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import "../styles/Layout.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const Layout = ({ content }) => {
   const navigate = useNavigate();
@@ -36,14 +37,35 @@ const Layout = ({ content }) => {
   return (
     <div>
       <header className="header-container">
-        {/* Contenedor para los botones */}
+        {/* Botones a la izquierda */}
         <div className="header-buttons-left">
           <button className="header-button back-button" onClick={handleBack}>
+            <i className="fas fa-arrow-left" style={{ marginRight: "8px" }}></i>
             Atrás
           </button>
           <Link to="/">
-            <button className="header-button">Inicio</button>
+            <button className="header-button">
+              <i className="fas fa-home" style={{ marginRight: "8px" }}></i>
+              Inicio
+            </button>
           </Link>
+        </div>
+
+        {/* Título al centro con ícono */}
+        <div className="title-container">
+          <h1 className="title">
+            PrestaBanco
+            <i
+              className="fas fa-coins"
+              
+              style={{
+                marginLeft: "10px",
+                fontSize: "1.5rem",
+                color: "white",
+                verticalAlign: "middle",
+              }}
+            ></i>
+          </h1>
         </div>
 
         {/* Barra de progreso */}
@@ -61,6 +83,7 @@ const Layout = ({ content }) => {
           }}
         />
       </header>
+
       <div className="content-container">{content}</div>
     </div>
   );
