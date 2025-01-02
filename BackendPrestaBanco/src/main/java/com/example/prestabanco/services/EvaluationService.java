@@ -46,6 +46,9 @@ public class EvaluationService {
         // Verify if the evaluation already exists
         Optional<EvaluationEntity> evaluationOpt = evaluationRepository.findByRequestId(request.getId());
 
+        System.out.println("credit history: " + creditHistory);
+
+
         EvaluationEntity evaluation;
         if (evaluationOpt.isPresent()) {
             // If exists, replace "evaluation" with the existing evaluation

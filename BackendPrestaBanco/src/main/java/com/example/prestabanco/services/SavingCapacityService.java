@@ -48,8 +48,13 @@ public class SavingCapacityService {
 
         // If the balance of the savings account is greater than the 10% of the loan amount
         if (evaluation.getBalance().compareTo(tenPercentOfLoanAmount) >= 0) {
+
+            System.out.println("The client has at least 10% of the loan amount in their savings account");
             savingCapacity.setMinAmount(true);
         } else {
+            System.out.println("balance: " + evaluation.getBalance());
+            System.out.println("10% of the loan amount: " + tenPercentOfLoanAmount);
+            System.out.println("The client doesn't have at least 10% of the loan amount in their savings account");
             savingCapacity.setMinAmount(false);
         }
 
@@ -69,12 +74,14 @@ public class SavingCapacityService {
         System.out.println("biggest withdrawal last 12 months: " + biggestWithdrawalLast12Months);
         System.out.println("balance after bw 12 months: " + balanceAfterBw12Months);
         System.out.println("balance 12 months ago: " + balance12MonthsAgo);
+        System.out.println("balance: " + balance);
         // If the balance after the biggest withdrawal last 12 months is greater than the biggest withdrawal last 12 months
-        if (balanceAfterBw12Months.compareTo(biggestWithdrawalLast12Months) > 0 && balance.compareTo(balance12MonthsAgo)> 0) {
-
+        if (balanceAfterBw12Months.compareTo(biggestWithdrawalLast12Months) > 0) {
+            System.out.println("The client didn't make any withdrawals over 50% of the balance");
             savingCapacity.setConsistentHistory(true);
         } else {
             savingCapacity.setConsistentHistory(false);
+            System.out.println("The client made a withdrawal over 50% of the balance");
         }
 
         // 3- The client must have at least 1 deposit per trimester in the last 12 months and
@@ -84,6 +91,10 @@ public class SavingCapacityService {
         int numDepositsFirst4Months = evaluation.getNumDepositsFirst4Months();
         int numDepositsLast4Months = evaluation.getNumDepositsLast4Months();
         int numDepositsSecond4Months = evaluation.getNumDepositsSecond4Months();
+
+        System.out.println("num deposits first 4 months: " + numDepositsFirst4Months);
+        System.out.println("num deposits last 4 months: " + numDepositsLast4Months);
+        System.out.println("num deposits second 4 months: " + numDepositsSecond4Months);
 
         // Obtain the sum of all deposits
         BigDecimal sumAllDeposits = evaluation.getSumAllDeposits();
@@ -97,8 +108,16 @@ public class SavingCapacityService {
         // than the 5% of the annual income
         if (numDepositsFirst4Months < 1 || numDepositsLast4Months < 1 || numDepositsSecond4Months < 1 ||
                 sumAllDeposits.compareTo(fivePercentOfAnnualIncome) < 0) {
+            System.out.println("The client doesn't have at least 1 deposit per trimester in the last 12 months");
+            System.out.println("Sum of all deposits: " + sumAllDeposits);
+            System.out.println("Annual income: " + annualIncome);
+            System.out.println("5% of the annual income: " + fivePercentOfAnnualIncome);
+
+            System.out.println("The sum of all deposits is less than the 5% of the annual income");
+
             savingCapacity.setPeriodicDeposits(false);
         } else {
+            System.out.println("The client has at least 1 deposit per trimester in the last 12 months");
             savingCapacity.setPeriodicDeposits(true);
         }
 
@@ -121,8 +140,15 @@ public class SavingCapacityService {
         // and the balance is less than the 10% of the loan amount
         if ((years < 2 && evaluation.getBalance().compareTo(twentyPercentOfLoanAmount) <= 0) ||
                 (years >= 2 && evaluation.getBalance().compareTo(tenPercentOfLoanAmount) < 0)) {
+            System.out.println("Detalles: ");
+            System.out.println("Years: " + years);
+            System.out.println("Balance: " + evaluation.getBalance());
+            System.out.println("20% of the loan amount: " + twentyPercentOfLoanAmount);
+            System.out.println("The client doesn't have at least 20% of the loan amount in their savings account");
+
             savingCapacity.setRelationAmountYears(false);
         } else {
+            System.out.println("The client has at least 20% of the loan amount in their savings account");
             savingCapacity.setRelationAmountYears(true);
         }
 
@@ -137,8 +163,14 @@ public class SavingCapacityService {
 
         // If the biggest withdrawal last 6 months is greater than the 30% of the balance before that withdrawal
         if (biggestWithdrawalLast6Months.compareTo(balanceBeforeBw6Months.multiply(BigDecimal.valueOf(0.3))) > 0) {
+            System.out.println("Details: ");
+            System.out.println("Biggest withdrawal last 6 months: " + biggestWithdrawalLast6Months);
+            System.out.println("Balance before the biggest withdrawal last 6 months: " + balanceBeforeBw6Months);
+            System.out.println("The client retired more than 30% of the balance in the last 6 months");
+
             savingCapacity.setRecentWithdrawals(false);
         } else {
+            System.out.println("The client didn't retire more than 30% of the balance in the last 6 months");
             savingCapacity.setRecentWithdrawals(true);
         }
 

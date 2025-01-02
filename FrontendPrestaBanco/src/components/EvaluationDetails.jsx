@@ -77,6 +77,7 @@ const EvaluationDetails = () => {
 
   const renderEvaluationItem = (label, value, detailKey) => {
     const isTrue = value;
+    console.log("Detalle: ", details[detailKey]);
     return (
       <li
         className={`list-group-item ${isTrue ? 'bg-success text-dark' : 'bg-danger text-dark'}`}
@@ -107,6 +108,7 @@ const EvaluationDetails = () => {
         {renderEvaluationItem('Antigüedad laboral y estabilidad financiera', evaluation.jobStatus, 'jobStatus')}
         {renderEvaluationItem('Relación Deuda/Ingreso', evaluation.debtToIncomeRatio, 'debtToIncomeRatio')}
         {renderEvaluationItem('Edad del solicitante', evaluation.inAge, 'inAge')}
+        {console.log("Evaluación: ", evaluation)}
       </ul>
 
       <div className="d-flex justify-content-between mt-3">

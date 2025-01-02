@@ -75,6 +75,7 @@ public class SimulationService {
             System.out.println("Client not found with the provided RUT");
             throw new IllegalArgumentException("Client not found with the provided RUT");
         }
+        System.out.println("Client found with RUT: " + rut);
 
         // Call the method to calculate the monthly payment
         SimulationEntity newSimulation = calculateMontlyPayment(rut, propertyValue, loanType, years, percentage);

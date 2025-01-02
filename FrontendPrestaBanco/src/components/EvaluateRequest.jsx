@@ -11,6 +11,9 @@ const EvaluateRequest = () => {
   const initialId = location.state?.key || localStorage.getItem('requestId') || null;
   const [id] = useState(initialId);
   const navigate = useNavigate();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showInvalidDateModal, setShowInvalidDateModal] = useState(false);
+const [invalidDateMessage, setInvalidDateMessage] = useState('');
 
   const [formData, setFormData] = useState({
     request: {},
@@ -82,11 +85,20 @@ const EvaluateRequest = () => {
     }));
   };
   const formatToNumber = (value) => {
-    return parseFloat(value.replace(/[^0-9.-]+/g, ''));
+    return parseInt(value.replace(/[^0-9-]+/g, ''), 10);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    const currentDate = new Date();
+    const creationDate = new Date(formData.creationSavingAccountDate);
+  
+    if (creationDate > currentDate) {
+      setInvalidDateMessage('La fecha de creación de la cuenta de ahorro no puede ser una fecha futura.');
+      setShowInvalidDateModal(true);
+      return;
+    }
   
     const cleanedFormData = {
       ...formData,
@@ -120,11 +132,11 @@ const EvaluateRequest = () => {
       });
   
       console.log('Evaluación creada exitosamente:', response.data);
+      console.log('Detalles de la solicitud:', cleanedFormData);
   
       await requestService.updateRequestStatus(id, 'En Evaluación');
   
-      alert('Evaluación creada exitosamente.');
-      navigate(`/evaluation/${id}`); 
+      setShowSuccessModal(true); // Mostrar modal de éxito
   
     } catch (error) {
       console.error('Error al crear la evaluación:', error);
@@ -323,238 +335,277 @@ const EvaluateRequest = () => {
           <hr className="my-2" />
           <h4 className="text-left">Deudas y cuenta de ahorro</h4>
           <hr className="my-2" />
-        <form onSubmit={handleSubmit}>
-        
-        <div className="form-group mt-3">
-            <label htmlFor="jobStatus">Marcar si el cliente tiene estabilidad laboral y económica</label>
-            <input
-              type="checkbox"
-              className="form-check-input border border-primary shadow-sm"
-              id="jobStatus"
-              name="jobStatus"
-              checked={formData.jobStatus}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="creditHistory">Marcar si el cliente NO tiene morosidades importantes</label>
-            <input
-              type="checkbox"
-              className="form-check-input border border-primary shadow-sm"
-              id="creditHistory"
-              name="creditHistory"
-              checked={formData.creditHistory}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="creationSavingAccountDate">Fecha de Creación de la Cuenta de Ahorro</label>
-            <input
-              type="date"
-              className="form-control"
-              id="creationSavingAccountDate"
-              name="creationSavingAccountDate"
-              value={formData.creationSavingAccountDate}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          
-          <div className="form-group mt-3">
-            <label htmlFor="balance">Saldo</label>
-            <input
-              type="text"
-              className="form-control"
-              id="balance"
-              name="balance"
-              placeholder='Saldo actual de la cuenta de ahorro del cliente'
-              value={formData.balance}
-              onChange={handleInputChange}
-              maxLength={15}
-              required
-            />
-          </div>
-          
-          <div className="form-group mt-3">
-            <label htmlFor="sumAllDebts">Total deudas</label>
-            <input
-              type="text"
-              className="form-control"
-              id="sumAllDebts"
-              name="sumAllDebts"
-              placeholder='Suma $$ de todas las deudas del cliente (revisar en Dicom)'
-              value={formData.sumAllDebts}
-              onChange={handleInputChange}
-              maxLength={15}
-              required
-            />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="sumAllDeposits">Total depósitos</label>
-            <input
-              type="text"
-              className="form-control"
-              id="sumAllDeposits"
-              name="sumAllDeposits"
-              placeholder='Suma $$ de todos los depósitos del cliente a su cuenta de ahorro'
-              value={formData.sumAllDeposits}
-              onChange={handleInputChange}
-              maxLength={15}
-              required
-            />
-          </div>
-          <div className="form-group mt-3" style={{ paddingBottom: '20px' }}>
-            <label htmlFor="balance12MonthsAgo">Saldo hace 12 meses</label>
-            <input
-              type="text"
-              className="form-control"
-              id="balance12MonthsAgo"
-              name="balance12MonthsAgo"
-              placeholder='Saldo de la cuenta de ahorro del cliente hace 12 meses'
-              value={formData.balance12MonthsAgo}
-              onChange={handleInputChange}
-              maxLength={15}
-              required
-            />
-          </div>
-          <hr className="my-2" />
-          <h4 className="text-left" style={{ marginBottom: '10px' }}>Retiros y depósitos en el último año</h4>
-          <hr className="my-2" style={{ paddingBottom: '10px' }} />
-          
-          <h5 className="text-left"  style={{ marginBottom: '0px' }}>Últimos 12 meses</h5>
-          <div className="form-group mt-3">
-            <label htmlFor="biggestWithdrawalLast12Months">Mayor retiro en los ultimos 12 meses</label>
-            <input
-              type="text"
-              className="form-control"
-              id="biggestWithdrawalLast12Months"
-              placeholder='Cantidad $$ del mayor retiro del cliente en los últimos 12 meses'
-              name="biggestWithdrawalLast12Months"
-              value={formData.biggestWithdrawalLast12Months}
-              onChange={handleInputChange}
-              maxLength={15}
-              required
-            />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="balanceAfterBw12Months">Saldo después del retiro</label>
-            <input
-              type="text"
-              className="form-control"
-              id="balanceAfterBw12Months"
-              name="balanceAfterBw12Months"
-              value={formData.balanceAfterBw12Months}
-              placeholder='Saldo después del mayor retiro en los últimos 12 meses'
-              onChange={handleInputChange}
-              maxLength={15}
-              required
-            />
-          </div>
-          <hr className="my-2" style={{ paddingBottom: '10px' }} />
-          
-          <h5 className="text-left"  style={{ marginBottom: '0px' }}>Últimos 6 meses</h5>
-          <div className="form-group mt-3">
-            <label htmlFor="biggestWithdrawalLast6Months">Mayor retiro en los ultimos 6 meses</label>
-            <input
-              type="text"
-              className="form-control"
-              id="biggestWithdrawalLast6Months"
-              name="biggestWithdrawalLast6Months"
-              placeholder='Cantidad $$ del mayor retiro del cliente en los últimos 6 meses'
-              value={formData.biggestWithdrawalLast6Months}
-              onChange={handleInputChange}
-              maxLength={15}
-              required
-            />
-          </div>
-          <div className="form-group mt-3" style={{ paddingBottom: '10px' }}>
-            <label htmlFor="balanceAfterBw6Months">Saldo después del retiro</label>
-            <input
-              type="text"
-              className="form-control"
-              id="balanceAfterBw6Months"
-              name="balanceAfterBw6Months"
-              placeholder='Saldo después del mayor retiro en los últimos 6 meses'
-              value={formData.balanceAfterBw6Months}
-              onChange={handleInputChange}
-              maxLength={15}
-              required
-            />
-          </div>
-          <hr className="my-2" />
-          <h4 className="text-left" style={{ marginBottom: '10px' }}>Depósitos por trimestre en el último año</h4>
-          <hr className="my-2" style={{ paddingBottom: '10px' }} />
-          <h6 className="text-left"  style={{ marginBottom: '0px' }}>Agrupar de a 4 meses y contar el número de depósitos por cada trimestre</h6>
-          <div className="form-group mt-3">
-          <label htmlFor="numDepositsFirst4Months">1er trimestre</label>
-          <input
-            type="number"
-            className="form-control"
-            id="numDepositsFirst4Months"
-            name="numDepositsFirst4Months"
-            placeholder="Cantidad de depósitos en los primeros 4 meses del año"
-            value={formData.numDepositsFirst4Months}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value.length <= 3) { // Limita a 3 caracteres
-                setFormData((prev) => ({
-                  ...prev,
-                  numDepositsFirst4Months: value,
-                }));
-              }
-            }}
-            max={999} // Valor máximo permitido
-            required
-          />
-        </div>
-        <div className="form-group mt-3">
-          <label htmlFor="numDepositsSecond4Months">2do trimestre</label>
-          <input
-            type="number"
-            className="form-control"
-            id="numDepositsSecond4Months"
-            name="numDepositsSecond4Months"
-            placeholder="Cantidad de depósitos en los segundos 4 meses del año"
-            value={formData.numDepositsSecond4Months}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value.length <= 3) { // Limita a 3 caracteres
-                setFormData((prev) => ({
-                  ...prev,
-                  numDepositsSecond4Months: value,
-                }));
-              }
-            }}
-            max={999} // Valor máximo permitido
-            required
-          />
-        </div>
-        <div className="form-group mt-3">
-          <label htmlFor="numDepositsLast4Months">3er trimestre</label>
-          <input
-            type="number"
-            className="form-control"
-            id="numDepositsLast4Months"
-            name="numDepositsLast4Months"
-            placeholder="Cantidad de depósitos en los últimos 4 meses del año"
-            value={formData.numDepositsLast4Months}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value.length <= 3) { // Limita a 3 caracteres
-                setFormData((prev) => ({
-                  ...prev,
-                  numDepositsLast4Months: value,
-                }));
-              }
-            }}
-            max={999} // Valor máximo permitido
-            required
-          />
-        </div>
-
-          {error && <div className="alert alert-danger mt-3">{error}</div>}
-          <button type="submit" className="btn btn-primary mt-4">Crear Evaluación</button>
-        </form>
+          <form onSubmit={handleSubmit}>
+  <div className="form-group mt-3">
+    <label htmlFor="jobStatus">
+      <i className="fas fa-briefcase" style={{ marginRight: '8px' }}></i>
+      Marcar si el cliente tiene estabilidad laboral y económica
+    </label>
+    <input
+      type="checkbox"
+      className="form-check-input  ms-3"
+      id="jobStatus"
+      name="jobStatus"
+      checked={formData.jobStatus}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div className="form-group mt-3">
+    <label htmlFor="creditHistory">
+      <i className="fas fa-history" style={{ marginRight: '8px' }}></i>
+      Marcar si el cliente NO tiene morosidades importantes
+    </label>
+    <input
+      type="checkbox"
+      className="form-check-input border border-primary shadow-sm ms-4"
+      id="creditHistory"
+      name="creditHistory"
+      checked={formData.creditHistory}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div className="form-group mt-3">
+    <label htmlFor="creationSavingAccountDate">
+      <i className="fas fa-calendar-alt" style={{ marginRight: '8px' }}></i>
+      Fecha de Creación de la Cuenta de Ahorro
+    </label>
+    <input
+      type="date"
+      className="form-control"
+      id="creationSavingAccountDate"
+      name="creationSavingAccountDate"
+      value={formData.creationSavingAccountDate}
+      onChange={handleInputChange}
+      required
+    />
+  </div>
+  <div className="form-group mt-3">
+    <label htmlFor="balance">
+      <i className="fas fa-dollar-sign" style={{ marginRight: '8px' }}></i>
+      Saldo
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="balance"
+      name="balance"
+      placeholder="Saldo actual de la cuenta de ahorro del cliente"
+      value={formData.balance}
+      onChange={handleInputChange}
+      maxLength={15}
+      required
+    />
+  </div>
+  <div className="form-group mt-3">
+    <label htmlFor="sumAllDebts">
+      <i className="fas fa-money-bill-wave" style={{ marginRight: '8px' }}></i>
+      Total deudas
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="sumAllDebts"
+      name="sumAllDebts"
+      placeholder="Suma $$ de todas las deudas del cliente (revisar en Dicom)"
+      value={formData.sumAllDebts}
+      onChange={handleInputChange}
+      maxLength={15}
+      required
+    />
+  </div>
+  <div className="form-group mt-3">
+    <label htmlFor="sumAllDeposits">
+      <i className="fas fa-piggy-bank" style={{ marginRight: '8px' }}></i>
+      Total depósitos
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="sumAllDeposits"
+      name="sumAllDeposits"
+      placeholder="Suma $$ de todos los depósitos del cliente a su cuenta de ahorro"
+      value={formData.sumAllDeposits}
+      onChange={handleInputChange}
+      maxLength={15}
+      required
+    />
+  </div>
+  <div className="form-group mt-3" style={{ paddingBottom: '20px' }}>
+    <label htmlFor="balance12MonthsAgo">
+      <i className="fas fa-calendar-alt" style={{ marginRight: '8px' }}></i>
+      Saldo hace 12 meses
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="balance12MonthsAgo"
+      name="balance12MonthsAgo"
+      placeholder="Saldo de la cuenta de ahorro del cliente hace 12 meses"
+      value={formData.balance12MonthsAgo}
+      onChange={handleInputChange}
+      maxLength={15}
+      required
+    />
+  </div>
+  <hr className="my-2" />
+  <h4 className="text-left" style={{ marginBottom: '10px' }}>Retiros y depósitos en el último año</h4>
+  <hr className="my-2" style={{ paddingBottom: '10px' }} />
+  <h5 className="text-left" style={{ marginBottom: '0px' }}>Últimos 12 meses</h5>
+  <div className="form-group mt-3">
+    <label htmlFor="biggestWithdrawalLast12Months">
+      <i className="fas fa-hand-holding-usd" style={{ marginRight: '8px' }}></i>
+      Mayor retiro en los últimos 12 meses
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="biggestWithdrawalLast12Months"
+      placeholder="Cantidad $$ del mayor retiro del cliente en los últimos 12 meses"
+      name="biggestWithdrawalLast12Months"
+      value={formData.biggestWithdrawalLast12Months}
+      onChange={handleInputChange}
+      maxLength={15}
+      required
+    />
+  </div>
+  <div className="form-group mt-3">
+    <label htmlFor="balanceAfterBw12Months">
+      <i className="fas fa-dollar-sign" style={{ marginRight: '8px' }}></i>
+      Saldo después del retiro
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="balanceAfterBw12Months"
+      name="balanceAfterBw12Months"
+      value={formData.balanceAfterBw12Months}
+      placeholder="Saldo después del mayor retiro en los últimos 12 meses"
+      onChange={handleInputChange}
+      maxLength={15}
+      required
+    />
+  </div>
+  <hr className="my-2" style={{ paddingBottom: '10px' }} />
+  <h5 className="text-left" style={{ marginBottom: '0px' }}>Últimos 6 meses</h5>
+  <div className="form-group mt-3">
+    <label htmlFor="biggestWithdrawalLast6Months">
+      <i className="fas fa-hand-holding-usd" style={{ marginRight: '8px' }}></i>
+      Mayor retiro en los últimos 6 meses
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="biggestWithdrawalLast6Months"
+      name="biggestWithdrawalLast6Months"
+      placeholder="Cantidad $$ del mayor retiro del cliente en los últimos 6 meses"
+      value={formData.biggestWithdrawalLast6Months}
+      onChange={handleInputChange}
+      maxLength={15}
+      required
+    />
+  </div>
+  <div className="form-group mt-3" style={{ paddingBottom: '10px' }}>
+    <label htmlFor="balanceAfterBw6Months">
+      <i className="fas fa-dollar-sign" style={{ marginRight: '8px' }}></i>
+      Saldo después del retiro
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="balanceAfterBw6Months"
+      name="balanceAfterBw6Months"
+      placeholder="Saldo después del mayor retiro en los últimos 6 meses"
+      value={formData.balanceAfterBw6Months}
+      onChange={handleInputChange}
+      maxLength={15}
+      required
+    />
+  </div>
+  <hr className="my-2" />
+  <h4 className="text-left" style={{ marginBottom: '10px' }}>Depósitos por trimestre en el último año</h4>
+  <hr className="my-2" style={{ paddingBottom: '10px' }} />
+  <h6 className="text-left" style={{ marginBottom: '0px' }}>Agrupar de a 4 meses y contar el número de depósitos por cada trimestre</h6>
+  <div className="form-group mt-3">
+    <label htmlFor="numDepositsFirst4Months">
+      <i className="fas fa-calendar-alt" style={{ marginRight: '8px' }}></i>
+      1er trimestre
+    </label>
+    <input
+      type="number"
+      className="form-control"
+      id="numDepositsFirst4Months"
+      name="numDepositsFirst4Months"
+      placeholder="Cantidad de depósitos en los primeros 4 meses del año"
+      value={formData.numDepositsFirst4Months}
+      onChange={(e) => {
+        const value = e.target.value;
+        if (value.length <= 3) {
+          setFormData((prev) => ({
+            ...prev,
+            numDepositsFirst4Months: value,
+          }));
+        }
+      }}
+      max={999}
+      required
+    />
+  </div>
+  <div className="form-group mt-3">
+    <label htmlFor="numDepositsSecond4Months">
+      <i className="fas fa-calendar-alt" style={{ marginRight: '8px' }}></i>
+      2do trimestre
+    </label>
+    <input
+      type="number"
+      className="form-control"
+      id="numDepositsSecond4Months"
+      name="numDepositsSecond4Months"
+      placeholder="Cantidad de depósitos en los segundos 4 meses del año"
+      value={formData.numDepositsSecond4Months}
+      onChange={(e) => {
+        const value = e.target.value;
+        if (value.length <= 3) {
+          setFormData((prev) => ({
+            ...prev,
+            numDepositsSecond4Months: value,
+          }));
+        }
+      }}
+      max={999}
+      required
+    />
+  </div>
+  <div className="form-group mt-3">
+    <label htmlFor="numDepositsLast4Months">
+      <i className="fas fa-calendar-alt" style={{ marginRight: '8px' }}></i>
+      3er trimestre
+    </label>
+    <input
+      type="number"
+      className="form-control"
+      id="numDepositsLast4Months"
+      name="numDepositsLast4Months"
+      placeholder="Cantidad de depósitos en los últimos 4 meses del año"
+      value={formData.numDepositsLast4Months}
+      onChange={(e) => {
+        const value = e.target.value;
+        if (value.length <= 3) {
+          setFormData((prev) => ({
+            ...prev,
+            numDepositsLast4Months: value,
+          }));
+        }
+      }}
+      max={999}
+      required
+    />
+  </div>
+  {error && <div className="alert alert-danger mt-3">{error}</div>}
+  <button type="submit" className="btn btn-primary mt-4">
+    <i className="fas fa-paper-plane" style={{ marginRight: '8px' }}></i>
+    Crear Evaluación
+  </button>
+</form>
       </div>
       <div className="pdf-preview">
         <iframe
@@ -589,6 +640,34 @@ const EvaluateRequest = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Evaluación Creada</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>¡La evaluación ha sido creada exitosamente!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => {
+            setShowSuccessModal(false);
+            navigate(`/evaluation/${id}`);
+          }}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showInvalidDateModal} onHide={() => setShowInvalidDateModal(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title>Fecha Inválida</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{invalidDateMessage}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => setShowInvalidDateModal(false)}>
+          Cerrar
+        </Button>
+      </Modal.Footer>
+    </Modal>
     </div>
   );
 };
