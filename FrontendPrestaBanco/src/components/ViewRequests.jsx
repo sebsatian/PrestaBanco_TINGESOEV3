@@ -2,13 +2,20 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import requestService from '../services/request.service.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../styles/ViewRequests.css';
+import DatePicker from 'react-datepicker';
 
 const ViewRequests = () => {
   const [requests, setRequests] = useState([]);
   const [loanTypes, setLoanTypes] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [searchRut, setSearchRut] = useState('');
+  const [searchStatus, setSearchStatus] = useState('');
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,13 +52,67 @@ const ViewRequests = () => {
     fetchRequests();
   }, [location.state]);
 
+  const filteredRequests = requests.filter((request) => {
+    const matchesRut = request.clientRut.toLowerCase().includes(searchRut.toLowerCase());
+    const matchesStatus = request.currentStatus.toLowerCase().includes(searchStatus.toLowerCase());
+    const matchesStartDate = startDate ? new Date(request.creationDate) >= startDate : true;
+    const matchesEndDate = endDate ? new Date(request.creationDate) <= endDate : true;
+    return matchesRut && matchesStatus && matchesStartDate && matchesEndDate;
+  });
+
   if (error) {
     return <div className="alert alert-danger mt-4">{error}</div>;
   }
 
   return (
-    <div className="container-fluid mt">
+    <div className="container-fluid mt-4">
       <h2 className="text-center mb-4">Lista de Solicitudes</h2>
+      {location.state?.from === 'ejecutivo' && (
+        <div className="search-container d-flex justify-content-between mb-2" style={{ backgroundColor: '#f8f9fa', paddingTop: '20px', borderRadius: '5px', padding: '5px' }}>
+          <div className="w-50 pe-3">
+            <div className="input-group mb-3">
+              <span className="input-group-text"><i className="fas fa-search"></i></span>
+              <input
+                type="text"
+                placeholder="Buscar por RUT"
+                value={searchRut}
+                onChange={(e) => setSearchRut(e.target.value)}
+                className="form-control bg-white"
+              />
+            </div>
+            <div className="input-group mb-3">
+              <span className="input-group-text"><i className="fas fa-search"></i></span>
+              <input
+                type="text"
+                placeholder="Buscar por Estado"
+                value={searchStatus}
+                onChange={(e) => setSearchStatus(e.target.value)}
+                className="form-control bg-white"
+              />
+            </div>
+          </div>
+          <div className="w-50 ps-3 d-flex justify-content-end">
+            <div className="input-group mb-3 me-2 flex-column align-items-center">
+              <i className="fas fa-calendar-alt mb-2"></i>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                placeholderText="Fecha de Inicio"
+                className="form-control bg-white"
+              />
+            </div>
+            <div className="input-group mb-3 flex-column align-items-center">
+              <i className="fas fa-calendar-alt mb-2"></i>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                placeholderText="Fecha de Fin"
+                className="form-control bg-white"
+              />
+            </div>
+          </div>
+        </div>
+      )}
       {loading ? (
         <div className="text-center">Cargando solicitudes...</div>
       ) : requests.length === 0 ? (
@@ -70,7 +131,7 @@ const ViewRequests = () => {
               </tr>
             </thead>
             <tbody>
-              {requests.map((request, index) => {
+              {filteredRequests.map((request, index) => {
                 const isRed =
                   request.currentStatus === 'Cancelada por el Cliente' ||
                   request.currentStatus === 'Rechazada';
