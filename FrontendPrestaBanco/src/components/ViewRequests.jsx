@@ -67,8 +67,8 @@ const ViewRequests = () => {
   return (
     <div className="container-fluid mt-4">
       <h2 className="text-center mb-4">Lista de Solicitudes</h2>
-      {!loading && location.state?.from === 'ejecutivo' && ( // Línea 69
-        <div className="search-container d-flex justify-content-between mb-2" style={{ backgroundColor: '#e8e6e6', paddingTop: '30px', borderRadius: '5px', padding: '10px' }}>
+      {!loading && location.state?.from === 'ejecutivo' && (
+        <div className="search-container d-flex justify-content-between mb-1">
           <div className="w-50 pe-3">
             <div className="input-group mb-3">
               <span className="input-group-text"><i className="fas fa-search"></i></span>
@@ -78,6 +78,7 @@ const ViewRequests = () => {
                 value={searchRut}
                 onChange={(e) => setSearchRut(e.target.value)}
                 className="form-control bg-white"
+                style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
               />
             </div>
             <div className="input-group mb-3">
@@ -88,6 +89,7 @@ const ViewRequests = () => {
                 value={searchStatus}
                 onChange={(e) => setSearchStatus(e.target.value)}
                 className="form-control bg-white"
+                style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
               />
             </div>
           </div>
@@ -99,6 +101,7 @@ const ViewRequests = () => {
                 onChange={(date) => setStartDate(date)}
                 placeholderText="Fecha de Inicio"
                 className="form-control bg-white"
+                style={{ boxShadow: '10 40px 12px rgba(0, 0, 0, 0.1)' }}
               />
             </div>
             <div className="input-group mb-3 flex-column align-items-center">
@@ -108,6 +111,7 @@ const ViewRequests = () => {
                 onChange={(date) => setEndDate(date)}
                 placeholderText="Fecha de Fin"
                 className="form-control bg-white"
+                style={{ boxShadow: '10 40px 12px rgba(0, 0, 0, 0.1)' }}
               />
             </div>
           </div>

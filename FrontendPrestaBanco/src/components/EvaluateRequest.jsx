@@ -219,6 +219,14 @@ const [invalidDateMessage, setInvalidDateMessage] = useState('');
               </button>
             </div>
           </li>
+          <li className="list-group-item">
+            <strong>Cuenta de Ahorro:</strong>
+            <div className="button-container">
+              <button className="document-button" onClick={() => showDocument(request.savingsAccount, 'savingsAccount')}>
+                {activeButton === 'incomeProof' && showViewer ? 'Cerrar PDF' : 'Ver Documento'}
+              </button>
+            </div>
+          </li>
           {(() => {
             switch (request.loanType) {
               case 1: {
@@ -286,6 +294,7 @@ const [invalidDateMessage, setInvalidDateMessage] = useState('');
               case 3: {
                 return (
                   <>
+
                     {request.businessPlan && (
                       <li className="list-group-item">
                         <strong>Plan de Negocios:</strong>
