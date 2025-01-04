@@ -220,7 +220,7 @@ const CreateRequest = () => {
           Solicitar Préstamo - {loanTypeName}
         </h2>
         <form onSubmit={handleSubmit}>
-        <div className="form-group mt-3">
+        <div className="form-group mt-3 mb-3">
             <label htmlFor="monthlyIncome">
               <i className="fas fa-dollar-sign" style={{ marginRight: '8px' }}></i>
               Ingreso Mensual
@@ -235,6 +235,7 @@ const CreateRequest = () => {
               onChange={handleInputChange}
             />
           </div>
+          <h4> Documentos (Solo PDF)</h4>
           <div className="form-group mt-3">
             <label htmlFor="appraisalCertificate">
               <i className="fas fa-file-alt" style={{ marginRight: '8px' }}></i>
