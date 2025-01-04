@@ -10,7 +10,7 @@ Evaluación 1 Técnicas de Ingeniería de Software
 - Ingresar a http://http://localhost:5173/
 
 - SUS:
-- H1: [Simulación de Crédito ](https://forms.gle/83ihMoSuu1wuDZ5a9)
-- H2: [Solicitud de Crédito ](https://forms.gle/FNhsYAMhgoyDAkwC9)
-- H3: [Evaluación de Solicitud](https://forms.gle/v6D4oKMd57GgLZaE6)
+- HU1: [Simulación de Crédito ](https://forms.gle/83ihMoSuu1wuDZ5a9)
+- HU2: [Solicitud de Crédito ](https://forms.gle/FNhsYAMhgoyDAkwC9)
+- HU3: [Evaluación de Solicitud](https://forms.gle/P3YvzYFSDpqZEV6W9)
  
