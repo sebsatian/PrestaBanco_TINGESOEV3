@@ -165,7 +165,7 @@ const SimulateLoan = () => {
               name="propertyValue"
               value={simulation.propertyValue}
               onChange={handleChange}
-              placeholder="Ingrese el valor de la propiedad"
+              placeholder="Ingrese el valor de la propiedad en pesos chilenos"
               required
               maxLength="12"
             />
@@ -208,7 +208,7 @@ const SimulateLoan = () => {
           </div>
           <div className="form-group mt-3">
             <label htmlFor="percentage">
-              <i className="fas fa-percentage" style={{ marginRight: '8px' }}></i>Porcentaje (%)
+              <i className="fas fa-percentage" style={{ marginRight: '8px' }}></i>Porcentaje a cubrir (%)
             </label>
             <input
               type="range"

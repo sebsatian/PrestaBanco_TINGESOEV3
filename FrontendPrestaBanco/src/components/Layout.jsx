@@ -54,7 +54,7 @@ const Layout = ({ content }) => {
         {/* Título al centro con ícono */}
         <div className="title-container">
           <h1 className="title">
-            PrestaBanco
+            PrestaBanco - Créditos Hipotecarios
             <i
               className="fas fa-coins"
               

@@ -531,13 +531,13 @@ const [invalidDateMessage, setInvalidDateMessage] = useState('');
     />
   </div>
   <hr className="my-2" />
-  <h4 className="text-left" style={{ marginBottom: '10px' }}>Depósitos por trimestre en el último año</h4>
+  <h4 className="text-left" style={{ marginBottom: '10px' }}>Depósitos por cuatrimestre en el último año</h4>
   <hr className="my-2" style={{ paddingBottom: '10px' }} />
-  <h6 className="text-left" style={{ marginBottom: '0px' }}>Agrupar de a 4 meses y contar el número de depósitos por cada trimestre</h6>
+  <h6 className="text-left" style={{ marginBottom: '0px' }}>Agrupar de a 4 meses y contar el número de depósitos por cada cuatrimestre</h6>
   <div className="form-group mt-3">
     <label htmlFor="numDepositsFirst4Months">
       <i className="fas fa-calendar-alt" style={{ marginRight: '8px' }}></i>
-      1er trimestre
+      1er cuatrimestre
     </label>
     <input
       type="number"
@@ -562,7 +562,7 @@ const [invalidDateMessage, setInvalidDateMessage] = useState('');
   <div className="form-group mt-3">
     <label htmlFor="numDepositsSecond4Months">
       <i className="fas fa-calendar-alt" style={{ marginRight: '8px' }}></i>
-      2do trimestre
+      2do cuatrimestre
     </label>
     <input
       type="number"
@@ -587,7 +587,7 @@ const [invalidDateMessage, setInvalidDateMessage] = useState('');
   <div className="form-group mt-3">
     <label htmlFor="numDepositsLast4Months">
       <i className="fas fa-calendar-alt" style={{ marginRight: '8px' }}></i>
-      3er trimestre
+      3er cuatrimestre
     </label>
     <input
       type="number"
